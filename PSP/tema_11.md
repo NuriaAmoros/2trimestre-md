@@ -188,6 +188,9 @@ public class ClienteHTTP {
     }
 }
 
+```
+--
+
 
 ## 2. Cliente FTP (estructura mínima)
 
@@ -217,6 +220,9 @@ public class ClienteFTP {
 }
 
 
+```
+--
+
 ## 3. Cliente Telnet (estructura mínima)
 
 ```java
@@ -244,6 +250,10 @@ public class ClienteTelnet {
         }
     }
 }
+
+
+```
+--
 
 ## 4. Cliente SMTP (estructura mínima)
 
@@ -279,6 +289,10 @@ public class ClienteSMTP {
         }
     }
 }
+
+
+```
+--
 
 ## 5. Sockets con hilos — Servidor TCP concurrente (todo junto)
 
