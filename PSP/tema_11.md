@@ -189,3 +189,184 @@ public class ClienteHTTP {
 }
 
 
+## 2. Cliente FTP (estructura mínima)
+
+```java
+import org.apache.commons.net.ftp.FTPClient;
+
+public class ClienteFTP {
+    public static void main(String[] args) {
+        FTPClient ftp = new FTPClient();
+
+        try {
+            ftp.connect("ftp.servidor.com");
+            ftp.login("usuario", "password");
+
+            ftp.enterLocalPassiveMode();
+
+            // Aquí se realizarían las operaciones FTP
+            // (listar, subir o descargar ficheros)
+
+            ftp.logout();
+            ftp.disconnect();
+
+        } catch (Exception e) {
+            System.out.println("Error cliente FTP: " + e.getMessage());
+        }
+    }
+}
+
+
+## 3. Cliente Telnet (estructura mínima)
+
+```java
+import org.apache.commons.net.telnet.TelnetClient;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+public class ClienteTelnet {
+    public static void main(String[] args) {
+        TelnetClient telnet = new TelnetClient();
+
+        try {
+            telnet.connect("localhost", 23);
+
+            InputStream entrada = telnet.getInputStream();
+            OutputStream salida = telnet.getOutputStream();
+
+            salida.write("help\n".getBytes());
+            salida.flush();
+
+            telnet.disconnect();
+
+        } catch (Exception e) {
+            System.out.println("Error cliente Telnet: " + e.getMessage());
+        }
+    }
+}
+
+## 4. Cliente SMTP (estructura mínima)
+
+```java
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+public class ClienteSMTP {
+    public static void main(String[] args) {
+        try {
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "smtp.servidor.com");
+
+            Session session = Session.getDefaultInstance(props);
+
+            Message mensaje = new MimeMessage(session);
+            mensaje.setFrom(new InternetAddress("origen@correo.com"));
+            mensaje.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse("destino@correo.com")
+            );
+            mensaje.setSubject("Asunto");
+            mensaje.setText("Contenido del mensaje");
+
+            Transport.send(mensaje);
+
+        } catch (Exception e) {
+            System.out.println("Error cliente SMTP: " + e.getMessage());
+        }
+    }
+}
+
+## 5. Sockets con hilos — Servidor TCP concurrente (todo junto)
+
+```java
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/**
+ * Servidor TCP concurrente
+ * Atiende a múltiples clientes usando hilos
+ */
+public class ServidorConcurrente {
+
+    private static final int PUERTO = 6000;
+
+    public static void main(String[] args) {
+        try (ServerSocket servidor = new ServerSocket(PUERTO)) {
+
+            while (true) {
+                Socket cliente = servidor.accept();
+                new ServidorHebra(cliente).start();
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error servidor concurrente: " + e.getMessage());
+        }
+    }
+}
+
+/**
+ * Hebra que atiende a un cliente concreto
+ */
+class ServidorHebra extends Thread {
+
+    private Socket cliente;
+
+    public ServidorHebra(Socket cliente) {
+        this.cliente = cliente;
+    }
+
+    @Override
+    public void run() {
+        try {
+            DataInputStream entrada = new DataInputStream(cliente.getInputStream());
+            DataOutputStream salida = new DataOutputStream(cliente.getOutputStream());
+
+            String mensaje = entrada.readUTF();
+            salida.writeUTF("Respuesta del servidor concurrente: " + mensaje);
+
+            cliente.close();
+
+        } catch (Exception e) {
+            System.out.println("Error hebra servidor: " + e.getMessage());
+        }
+    }
+}
+### Cliente TCP (compatible con servidor concurrente)
+
+```java
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
+
+/**
+ * Cliente TCP
+ * Compatible con servidor concurrente
+ */
+public class ClienteTCP {
+
+    private static final String HOST = "localhost";
+    private static final int PUERTO = 6000;
+
+    public static void main(String[] args) {
+        try (Socket socket = new Socket(HOST, PUERTO)) {
+
+            DataOutputStream salida = new DataOutputStream(socket.getOutputStream());
+            DataInputStream entrada = new DataInputStream(socket.getInputStream());
+
+            salida.writeUTF("Hola servidor concurrente");
+            entrada.readUTF();
+
+        } catch (Exception e) {
+            System.out.println("Error cliente TCP: " + e.getMessage());
+        }
+    }
+}
+
+
+
