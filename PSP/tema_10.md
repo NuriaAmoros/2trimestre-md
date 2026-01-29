@@ -239,6 +239,9 @@ public class ServidorTCP {
 }
 
 ´´´
+
+---
+
 ## 2. Cliente TCP (estructura mínima)
 
 ```java
@@ -268,6 +271,9 @@ public class ClienteTCP {
 }
 
 ´´´
+
+---
+
 ## 3. UDP — `DatagramPacket` y `DatagramSocket` (estructura mínima)
 
 ```java
@@ -310,6 +316,9 @@ public class UdpBasico {
     }
 }
 ´´´
+
+---
+
 ## 4. Servidor UDP (estructura mínima)
 
 ```java
@@ -351,6 +360,7 @@ public class ServidorUDP {
 }
 
 ´´´
+--- 
 
 ## 5. Cliente UDP (estructura mínima)
 
@@ -389,3 +399,5 @@ public class ClienteUDP {
     }
 }
 ´´´
+
+---
