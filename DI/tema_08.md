@@ -208,9 +208,6 @@ Uso típico:
 - **$V{}** → dato calculado  
 - **$P{}** → dato externo / de entrada  
 
-Esto es exactamente **lo que suele preguntar el profesor** cuando menciona:
-> “los apartados de un informe” y  
-> “los tipos de variables, el $F, $V, $P y todo eso”
 
 Si quieres, en el siguiente mensaje puedo:
 - convertir esto en **respuesta tipo examen**, o  
